@@ -8,7 +8,7 @@ from spacy.tokens import Doc
 from spacy_setfit.schemas import SetFitTrainerArgs
 
 
-class SpacySetFit():
+class SpacySetFit:
     def __init__(self, nlp: Language, model: SetFitModel, labels = None):
         self.nlp = nlp
         self.model = model
@@ -43,8 +43,7 @@ class SpacySetFit():
     @classmethod
     def from_trained(cls, nlp: Language, pretrained_model_name_or_path: str, setfit_trainer_args: SetFitTrainerArgs, setfit_from_pretrained_args: dict = None):
 
-        if setfit_from_pretrained_args.get("multi_target_strategy") is None:
-            setfit_from_pretrained_args["multi_target_strategy"] = "one-vs-rest"
+        setfit_from_pretrained_args["multi_target_strategy"] = setfit_from_pretrained_args.get("multi_target_strategy")
         if setfit_trainer_args.multi_label:
             setfit_from_pretrained_args["multi_target_strategy"] = "one-vs-rest"
 
@@ -55,7 +54,8 @@ class SpacySetFit():
         )
         trainer.train()
         if setfit_trainer_args.eval_dataset:
-            trainer.evaluate()
+            evaluation = trainer.evaluate()
+            print(evaluation)
 
         return cls(nlp, model, labels=setfit_trainer_args.labels)
 
@@ -102,6 +102,4 @@ class SpacySetFit():
             pred_results = self.model.predict_proba([doc.text for doc in docs])
 
             for doc, prediction in zip(docs, pred_results):
-                doc = self._assign_labels(doc, prediction)
-
-                yield doc
+                yield self._assign_labels(doc, prediction)

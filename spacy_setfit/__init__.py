@@ -1,5 +1,6 @@
 import logging
 
+from rich.logging import RichHandler
 from spacy.language import Language
 
 from spacy_setfit.models import SpacySetFit
@@ -10,12 +11,18 @@ __all__ = [
     "SetFitTrainerArgs"
 ]
 
-logging.captureWarnings(True)
+logging.basicConfig(
+    level="INFO",
+    format="%(message)s",
+    datefmt="[%X]",
+    handlers=[RichHandler(rich_tracebacks=True)]
+)
+
 
 @Language.factory(
     "text_categorizer",
     default_config={
-        "pretrained_model_name_or_path": str,
+        "pretrained_model_name_or_path": "all-MiniLM-L6-v2",
         "setfit_from_pretrained_args": None,
         "setfit_trainer_args": None,
     },

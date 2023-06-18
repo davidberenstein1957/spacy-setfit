@@ -1,4 +1,5 @@
 
+import logging
 from typing import Union
 
 import pandas as pd
@@ -6,8 +7,23 @@ from datasets import ClassLabel, Dataset, Features, Value
 from pydantic import BaseModel, root_validator
 from sklearn import preprocessing
 
+__LOGGER__ = logging.getLogger(__name__)
 
 class SetFitTrainerArgs(BaseModel):
+    """
+    SetFitTrainerArgs is a Pydantic model that defines the arguments for the SetFitTrainer.
+    __NOTE__: it is a simplified version of the offficial args from the SetFit library.
+
+    train_dataset: Union[dict, Dataset]
+    eval_dataset: Union[dict, Dataset] = None
+    num_iterations: int = 20
+    num_epochs: int = 1
+    learning_rate: float = 2e-5
+    batch_size: float = 16
+    seed: int = 42
+    column_mapping: dict = None
+    use_amp: bool = False
+    """
     train_dataset: Union[dict, Dataset]
     eval_dataset: Union[dict, Dataset] = None
     num_iterations: int = 20
@@ -29,7 +45,13 @@ class SetFitTrainerArgs(BaseModel):
         def _convert_dict_to_dataset(ds_dict):
             df = pd.DataFrame(datasets_dict)
             labels = df.label.unique().tolist()
-            df = df.drop_duplicates(subset=["text", "label"])
+            df_duplicate_in_group = df.drop_duplicates(subset=["text", "label"])
+            df_duplicates_across_groups = df.drop_duplicates(subset=["text", "label", "split"])
+            if (len(df_duplicate_in_group) != len(df)) and (len(df_duplicate_in_group) != len(df_duplicates_across_groups)):
+                __LOGGER__.warning("There are duplicate texts acrooss the train and eval data.")
+            elif len(df_duplicate_in_group) != len(df):
+                __LOGGER__.warning("There are duplicate texts in the dataset.")
+            df = df.drop_duplicates(subset=["text", "label", "split"])
             df_group = df.groupby("text").agg(list).reset_index()
             if len(df_group) != len(df):
                 values["multi_label"] = True
@@ -49,7 +71,6 @@ class SetFitTrainerArgs(BaseModel):
                 "label": [class_label] if values["multi_label"] else class_label,
             }
 
-            print(df.to_dict(orient="list"))
             ds = Dataset.from_dict(df.to_dict(orient="list"), features=Features(feature_dict))
             ds = ds.shuffle(seed=values["seed"])
 
@@ -81,19 +102,24 @@ class SetFitTrainerArgs(BaseModel):
             else:
                 le = preprocessing.LabelEncoder()
             df["label"] = le.fit_transform(df["label"]).tolist()
-
+            text = ""
             for train_or_test in options:
+                print(train_or_test)
                 if values["multi_label"]:
                     df_filtered = df.copy(deep=True)
                     df_filtered["split"] = df_filtered["split"].apply(lambda x: True if train_or_test in x else False)
                     df_filtered = df_filtered[df_filtered["split"] == True] # noqa
-                    df_filtered["label"] = df_filtered["label"].apply(lambda x: x)
                 else:
                     df_filtered = df[df["split"] == train_or_test]
 
                 if not df_filtered.empty:
                     df_filtered = df_filtered.drop(columns=["split"])
-                    values[train_or_test] = _create_datasets(df_filtered, [0,1])
+                    print(df_filtered)
+                    values[train_or_test] = _create_datasets(df_filtered, labels)
+                    text += f"\n\t{train_or_test}: {len(values[train_or_test])}"
+
+            __LOGGER__.info(f"The datasets have been created: \n\tlabels: {values['labels']}\n\tmulti_label: {values['multi_label']}{text}")
+
             return values
         else:
             return values
