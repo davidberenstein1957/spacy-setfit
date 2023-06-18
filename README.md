@@ -57,7 +57,7 @@ Feel free to explore more features and documentation of spaCy and SetFit to enha
 
 ## setfit_trainer_args
 
-The `setfit_trainer_args` are a simplified version of the official args from the SetFit library.
+The `setfit_trainer_args` are a simplified version of [the official args from the SetFit library](https://github.com/huggingface/setfit#training-a-setfit-model).
 
 ### Arguments
 
@@ -79,12 +79,14 @@ The `setfit_trainer_args` are a simplified version of the official args from the
 
 - `use_amp` (bool, optional): Whether to use Automatic Mixed Precision (AMP) for training. Defaults to `False`.
 
+Please note that the above documentation provides an overview of the arguments and their purpose. For more detailed information and usage examples, it is recommended to refer to the official SetFit library documentation or any specific implementation details provided by the library.
+
 ### Usage
 
-To use the `setfit_trainer_args`, you can create an instance of the class and set the desired values for the arguments. Here's an example:
+To use the `setfit_trainer_args`, you can create a dictionary with the desired values for the arguments. Here's an example:
 
 ```python
-args = {
+setfit_trainer_args = {
     "train_dataset": train_data,
     "eval_dataset": eval_data,
     "num_iterations": 20,
@@ -94,6 +96,52 @@ args = {
     "seed": 42,
     "column_mapping": column_map,
     "use_amp": False
+}
+```
+
+## setfit_from_pretrained_args
+
+The `setfit_from_pretrained_args` are a simplified version of [the official args from the SetFit library](https://github.com/huggingface/setfit#training-a-setfit-model) and [Hugging Face transformers](https://huggingface.co/docs/transformers/main_classes/model#transformers.PreTrainedModel.from_pretrained).
+
+### Arguments
+
+- `pretrained_model_name_or_path` (str or Path): This argument specifies the model to be loaded. It can be either:
+  - The `model_id` (string) of a model hosted on the Hugging Face Model Hub, e.g., `bigscience/bloom`.
+  - A path to a directory containing model weights saved using the `save_pretrained` method of `PreTrainedModel`, e.g., `../path/to/my_model_directory/`.
+
+- `revision` (str, optional): The revision of the model on the Hub. It can be a branch name, a git tag, or any commit id. Defaults to the latest commit on the main branch.
+
+- `force_download` (bool, optional): Whether to force (re-)downloading the model weights and configuration files from the Hub, overriding the existing cache. Defaults to `False`.
+
+- `resume_download` (bool, optional): Whether to delete incompletely received files and attempt to resume the download if such a file exists. Defaults to `False`.
+
+- `proxies` (Dict[str, str], optional): A dictionary of proxy servers to use by protocol or endpoint. It is used for requests made during the downloading process. For example: `proxies = {'http': 'foo.bar:3128', 'http://hostname': 'foo.bar:4012'}`
+
+- `token` (str or bool, optional): The token to use as HTTP bearer authorization for remote files. By default, it uses the token cached when running `huggingface-cli login`.
+
+- `cache_dir` (str or Path, optional): The path to the folder where cached files are stored.
+
+- `local_files_only` (bool, optional): If `True`, it avoids downloading the file and returns the path to the local cached file if it exists. Defaults to `False`.
+
+- `model_kwargs` (Dict, optional): Additional keyword arguments to pass to the model during initialization.
+
+Please note that the above documentation provides an overview of the arguments and their purpose. For more detailed information and usage examples, it is recommended to refer to the official SetFit library documentation or any specific implementation details provided by the library.
+
+### Usage
+
+To use the `setfit_from_pretrained_args`, you can create a dictionary with the desired values for the arguments. Here's an example:
+
+```python
+setfit_from_pretrained_args = {
+    'pretrained_model_name_or_path': '',  # str or Path
+    'revision': None,  # str, optional
+    'force_download': False,  # bool, optional
+    'resume_download': False,  # bool, optional
+    'proxies': None,  # Dict[str, str], optional
+    'token': None,  # str or bool, optional
+    'cache_dir': None,  # str or Path, optional
+    'local_files_only': False,  # bool, optional
+    'model_kwargs': None  # Dict, optional
 }
 ```
 
