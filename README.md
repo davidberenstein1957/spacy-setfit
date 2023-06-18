@@ -168,3 +168,7 @@ doc = nlp("I really need to get a new sofa.")
 doc.cats
 # {'inlier': 0.902350975129, 'outlier': 0.097649024871}
 ```
+
+## Logo Reference
+
+Quotation by Adrien Coquet from <a href="https://thenounproject.com/browse/icons/term/quotation/" target="_blank" title="quotation Icons">Noun Project</a>
