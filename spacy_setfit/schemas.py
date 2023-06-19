@@ -12,7 +12,7 @@ __LOGGER__ = logging.getLogger(__name__)
 class SetFitTrainerArgs(BaseModel):
     """
     SetFitTrainerArgs is a Pydantic model that defines the arguments for the SetFitTrainer.
-    __NOTE__: it is a simplified version of the offficial args from the SetFit library.
+    __NOTE__: it is a simplified version of the official args from the SetFit library.
 
     train_dataset: Union[dict, Dataset]
     eval_dataset: Union[dict, Dataset] = None
@@ -104,7 +104,6 @@ class SetFitTrainerArgs(BaseModel):
             df["label"] = le.fit_transform(df["label"]).tolist()
             text = ""
             for train_or_test in options:
-                print(train_or_test)
                 if values["multi_label"]:
                     df_filtered = df.copy(deep=True)
                     df_filtered["split"] = df_filtered["split"].apply(lambda x: True if train_or_test in x else False)
@@ -114,7 +113,6 @@ class SetFitTrainerArgs(BaseModel):
 
                 if not df_filtered.empty:
                     df_filtered = df_filtered.drop(columns=["split"])
-                    print(df_filtered)
                     values[train_or_test] = _create_datasets(df_filtered, labels)
                     text += f"\n\t{train_or_test}: {len(values[train_or_test])}"
 
