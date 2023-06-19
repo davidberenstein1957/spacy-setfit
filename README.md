@@ -22,7 +22,6 @@ To use spaCy with SetFit use the following code:
 
 ```python
 import spacy
-import spacy_setfit
 
 # Create some example data
 train_dataset = {
