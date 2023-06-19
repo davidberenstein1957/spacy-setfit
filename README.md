@@ -10,7 +10,7 @@ Before using spaCy with SetFit, make sure you have the necessary packages instal
 pip install spacy spacy-setfit
 ```
 
-Additionally, you will need to download a spaCy model, for example:
+Additionally, you will might want to download a spaCy model, for example:
 
 ```
 python -m spacy download en_core_web_sm
