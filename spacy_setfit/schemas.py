@@ -104,7 +104,6 @@ class SetFitTrainerArgs(BaseModel):
             df["label"] = le.fit_transform(df["label"]).tolist()
             text = ""
             for train_or_test in options:
-                print(train_or_test)
                 if values["multi_label"]:
                     df_filtered = df.copy(deep=True)
                     df_filtered["split"] = df_filtered["split"].apply(lambda x: True if train_or_test in x else False)
@@ -114,7 +113,6 @@ class SetFitTrainerArgs(BaseModel):
 
                 if not df_filtered.empty:
                     df_filtered = df_filtered.drop(columns=["split"])
-                    print(df_filtered)
                     values[train_or_test] = _create_datasets(df_filtered, labels)
                     text += f"\n\t{train_or_test}: {len(values[train_or_test])}"
 
