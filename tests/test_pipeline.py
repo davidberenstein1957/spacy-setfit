@@ -100,3 +100,13 @@ def test_without_train_args(nlp):
             },
         )
         nlp("I really need to get a new sofa.")
+
+
+def test_pretrained_model(nlp):
+    nlp.add_pipe(
+        "text_categorizer",
+        config={
+            "pretrained_model_name_or_path": "lewtun/my-awesome-setfit-model",
+        },
+    )
+    nlp("I really need to get a new sofa.")
