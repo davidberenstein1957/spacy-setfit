@@ -12,7 +12,7 @@ __LOGGER__ = logging.getLogger(__name__)
 class SetFitTrainerArgs(BaseModel):
     """
     SetFitTrainerArgs is a Pydantic model that defines the arguments for the SetFitTrainer.
-    __NOTE__: it is a simplified version of the offficial args from the SetFit library.
+    __NOTE__: it is a simplified version of the official args from the SetFit library.
 
     train_dataset: Union[dict, Dataset]
     eval_dataset: Union[dict, Dataset] = None
