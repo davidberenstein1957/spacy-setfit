@@ -147,8 +147,6 @@ setfit_from_pretrained_args = {
 
 ## Saving and Loading models
 
-## Saving and Loading with Pickle
-
 You can use the `pickle` module in Python to save and load instances of the pre-trained pipeline. `pickle` allows you to serialize Python objects, including custom classes, into a binary format that can be saved to a file and loaded back into memory later. Here's an example of how to save and load using `pickle`:
 
 ```python
