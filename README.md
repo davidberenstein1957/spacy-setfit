@@ -144,6 +144,23 @@ setfit_from_pretrained_args = {
 }
 ```
 
+## Pretrained SetFit models
+
+You can also use [pre-trained SetFit models](https://huggingface.co/models?search=setfit).
+
+```python
+import spacy
+
+# Load the spaCy language model:
+nlp = spacy.load("en_core_web_sm")
+
+# Add the "text_categorizer" pipeline component to the spaCy model
+nlp.add_pipe("text_categorizer", config={
+    "pretrained_model_name_or_path": "lewtun/my-awesome-setfit-model",
+})
+nlp("I really need to get a new sofa.")
+```
+
 ## Saving and Loading models
 
 You can use the `pickle` module in Python to save and load instances of the pre-trained pipeline. `pickle` allows you to serialize Python objects, including custom classes, into a binary format that can be saved to a file and loaded back into memory later. Here's an example of how to save and load using `pickle`:
