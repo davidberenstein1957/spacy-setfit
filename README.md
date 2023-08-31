@@ -36,8 +36,8 @@ train_dataset = {
 # Load the spaCy language model:
 nlp = spacy.load("en_core_web_sm")
 
-# Add the "text_categorizer" pipeline component to the spaCy model, and configure it with SetFit parameters:
-nlp.add_pipe("text_categorizer", config={
+# Add the "spacy_setfit" pipeline component to the spaCy model, and configure it with SetFit parameters:
+nlp.add_pipe("spacy_setfit", config={
     "pretrained_model_name_or_path": "paraphrase-MiniLM-L3-v2",
     "setfit_trainer_args": {
         "train_dataset": train_dataset
@@ -64,6 +64,12 @@ The `setfit_trainer_args` are a simplified version of [the official args from th
 
 - `eval_dataset` (Union[dict, Dataset], optional): The evaluation dataset to be used by the SetFitTrainer. It can be either a dictionary or a Dataset object. Defaults to `None`.
 
+- `metric` (Union[str, Callable[["Dataset", "Dataset"], Dict[str, float]]], optional): The metric to be used for evaluation. It can be either a string or a callable. Defaults to `"accuracy"`.
+
+- `metric_kwargs` (Optional[Dict[str, Any]], optional): Additional keyword arguments to pass to the metric function. Defaults to `None`.
+
+- `loss_class` (losses.CosineSimilarityLoss, optional): The loss function to be used for training. Defaults to `losses.CosineSimilarityLoss`.
+
 - `num_iterations` (int, optional): The number of iterations to train the model. Defaults to `20`.
 
 - `num_epochs` (int, optional): The number of epochs to train the model. Defaults to `1`.
@@ -77,6 +83,14 @@ The `setfit_trainer_args` are a simplified version of [the official args from th
 - `column_mapping` (dict, optional): A mapping dictionary that specifies how to map input columns to model inputs. Defaults to `None`.
 
 - `use_amp` (bool, optional): Whether to use Automatic Mixed Precision (AMP) for training. Defaults to `False`.
+
+- `warmup_proportion` (float, optional): The proportion of training steps to perform linear learning rate warmup for. Defaults to `0.1`.
+
+- `distance_metric` (Callable, optional): The distance metric to be used for training. Defaults to `BatchHardTripletLossDistanceFunction.cosine_distance`.
+
+- `margin` (float, optional): The margin for the triplet loss function. Defaults to `0.25`.
+
+- `samples_per_label` (int, optional): The number of samples per label to be used for training. Defaults to `2`.
 
 Please note that the above documentation provides an overview of the arguments and their purpose. For more detailed information and usage examples, it is recommended to refer to the official SetFit library documentation or any specific implementation details provided by the library.
 
@@ -154,8 +168,8 @@ import spacy
 # Load the spaCy language model:
 nlp = spacy.load("en_core_web_sm")
 
-# Add the "text_categorizer" pipeline component to the spaCy model
-nlp.add_pipe("text_categorizer", config={
+# Add the "spacy_setfit" pipeline component to the spaCy model
+nlp.add_pipe("spacy_setfit", config={
     "pretrained_model_name_or_path": "lewtun/my-awesome-setfit-model",
 })
 nlp("I really need to get a new sofa.")

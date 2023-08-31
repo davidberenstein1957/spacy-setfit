@@ -17,7 +17,7 @@ logging.basicConfig(
 
 
 @Language.factory(
-    "text_categorizer",
+    "spacy_setfit",
     default_config={
         "pretrained_model_name_or_path": "all-MiniLM-L6-v2",
         "setfit_from_pretrained_args": None,
