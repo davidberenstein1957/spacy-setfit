@@ -36,8 +36,8 @@ train_dataset = {
 # Load the spaCy language model:
 nlp = spacy.load("en_core_web_sm")
 
-# Add the "text_categorizer" pipeline component to the spaCy model, and configure it with SetFit parameters:
-nlp.add_pipe("text_categorizer", config={
+# Add the "spacy_setfit" pipeline component to the spaCy model, and configure it with SetFit parameters:
+nlp.add_pipe("spacy_setfit", config={
     "pretrained_model_name_or_path": "paraphrase-MiniLM-L3-v2",
     "setfit_trainer_args": {
         "train_dataset": train_dataset
@@ -168,8 +168,8 @@ import spacy
 # Load the spaCy language model:
 nlp = spacy.load("en_core_web_sm")
 
-# Add the "text_categorizer" pipeline component to the spaCy model
-nlp.add_pipe("text_categorizer", config={
+# Add the "spacy_setfit" pipeline component to the spaCy model
+nlp.add_pipe("spacy_setfit", config={
     "pretrained_model_name_or_path": "lewtun/my-awesome-setfit-model",
 })
 nlp("I really need to get a new sofa.")

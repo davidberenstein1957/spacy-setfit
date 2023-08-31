@@ -4,7 +4,7 @@ import pickle
 
 def test_multi_label(nlp, dataset_multi_label):  # noqa
     nlp.add_pipe(
-        "text_categorizer",
+        "spacy_setfit",
         config={
             "pretrained_model_name_or_path": "sentence-transformers/paraphrase-MiniLM-L3-v2",
             "setfit_trainer_args": {
@@ -17,7 +17,7 @@ def test_multi_label(nlp, dataset_multi_label):  # noqa
 
 def test_single_label(nlp, dataset_single_label):  # noqa
     nlp.add_pipe(
-        "text_categorizer",
+        "spacy_setfit",
         config={
             "pretrained_model_name_or_path": "paraphrase-MiniLM-L3-v2",
             "setfit_trainer_args": {
@@ -32,7 +32,7 @@ def test_single_label(nlp, dataset_single_label):  # noqa
 
 def test_alternative_trainer_args(nlp, dataset_single_label):  # noqa
     nlp.add_pipe(
-        "text_categorizer",
+        "spacy_setfit",
         config={
             "pretrained_model_name_or_path": "paraphrase-MiniLM-L3-v2",
             "setfit_trainer_args": {
@@ -46,7 +46,7 @@ def test_alternative_trainer_args(nlp, dataset_single_label):  # noqa
 
 def test_model_without_model_args(nlp, dataset_single_label):  # noqa
     nlp.add_pipe(
-        "text_categorizer",
+        "spacy_setfit",
         config={
             "setfit_trainer_args": {
                 "train_dataset": dataset_single_label,
@@ -58,7 +58,7 @@ def test_model_without_model_args(nlp, dataset_single_label):  # noqa
 
 def test_model_with_model_args(nlp, dataset_single_label):  # noqa
     nlp.add_pipe(
-        "text_categorizer",
+        "spacy_setfit",
         config={
             "setfit_trainer_args": {
                 "train_dataset": dataset_single_label,
@@ -71,7 +71,7 @@ def test_model_with_model_args(nlp, dataset_single_label):  # noqa
 
 def test_save_load_pickle(nlp, dataset_single_label):
     nlp.add_pipe(
-        "text_categorizer",
+        "spacy_setfit",
         config={
             "pretrained_model_name_or_path": "paraphrase-MiniLM-L3-v2",
             "setfit_trainer_args": {"train_dataset": dataset_single_label},
@@ -94,7 +94,7 @@ def test_save_load_pickle(nlp, dataset_single_label):
 def test_without_train_args(nlp):
     with pytest.raises(Exception):
         nlp.add_pipe(
-            "text_categorizer",
+            "spacy_setfit",
             config={
                 "pretrained_model_name_or_path": "paraphrase-MiniLM-L3-v2",
             },
@@ -104,7 +104,7 @@ def test_without_train_args(nlp):
 
 def test_pretrained_model(nlp):
     nlp.add_pipe(
-        "text_categorizer",
+        "spacy_setfit",
         config={
             "pretrained_model_name_or_path": "lewtun/my-awesome-setfit-model",
         },
