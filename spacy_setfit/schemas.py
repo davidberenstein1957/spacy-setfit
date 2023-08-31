@@ -45,12 +45,12 @@ class SetFitTrainerArgs(BaseModel):
 
     train_dataset: Union[dict, "Dataset"]
     eval_dataset: Union[dict, "Dataset"] = None
-    model_init: Optional[Callable[[], "SetFitModel"]] = (None,)
+    model_init: Optional[Callable[[], "SetFitModel"]] = None
     metric: Union[str, Callable[["Dataset", "Dataset"], Dict[str, float]]] = (
         "accuracy",
     )
-    metric_kwargs: Optional[Dict[str, Any]] = (None,)
-    loss_class = (losses.CosineSimilarityLoss,)
+    metric_kwargs: Optional[Dict[str, Any]] = None
+    loss_class = losses.CosineSimilarityLoss
     num_iterations: int = 20
     num_epochs: int = 1
     learning_rate: float = 2e-5
@@ -58,10 +58,10 @@ class SetFitTrainerArgs(BaseModel):
     seed: int = 42
     column_mapping: dict = None
     use_amp: bool = False
-    warmup_proportion: float = (0.1,)
+    warmup_proportion: float = 0.1
     distance_metric: Callable = (BatchHardTripletLossDistanceFunction.cosine_distance,)
-    margin: float = (0.25,)
-    samples_per_label: int = (2,)
+    margin: float = 0.25
+    samples_per_label: int = 2
     multi_label: bool = False
     labels: list = None
 
